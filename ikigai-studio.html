@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ikigai Studio — Purpose-Driven Creative Agency</title>
+<meta name="description" content="Ikigai Studio by Rutuja Pawar — Strategic creative & digital agency for hospitality and lifestyle brands. Brand strategy, visual identity, content, Meta ads.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Noto+Serif+JP:wght@300;400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════ */
+:root {
+  --ink:        #13100c;
+  --ink-60:     rgba(19,16,12,0.6);
+  --red:        #be3829;
+  --red-d:      #9a2e22;
+  --paper:      #f6f2ea;
+  --paper-2:    #ece6db;
+  --paper-3:    #e2dbd0;
+  --ash:        #8a8177;
+  --mist:       #cac3b8;
+  --white:      #fdfaf5;
+  --gold:       #b59468;
+  --ease:       cubic-bezier(.25,.46,.45,.94);
+}
+
+/* ═══════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════ */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+img { display:block; max-width:100%; }
+a { text-decoration:none; color:inherit; }
+body {
+  font-family:'DM Sans',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* grain */
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.028'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:9990;
+}
+
+/* ═══════════════════════════════════
+   CURSOR
+═══════════════════════════════════ */
+#dot,#ring {
+  position:fixed; border-radius:50%;
+  pointer-events:none; z-index:99999;
+  transform:translate(-50%,-50%);
+}
+#dot  { width:7px; height:7px; background:var(--red); }
+#ring {
+  width:32px; height:32px;
+  border:1px solid var(--red); opacity:.45;
+  transition:width .3s, height .3s, opacity .3s;
+}
+#ring.grow { width:58px; height:58px; opacity:.2; }
+@media(hover:none){ #dot,#ring{ display:none; } body{ cursor:auto; } }
+
+/* ═══════════════════════════════════
+   NAV
+═══════════════════════════════════ */
+#nav {
+  position:fixed; inset:0 0 auto;
+  z-index:1000;
+  padding:24px 64px;
+  display:flex; align-items:center; justify-content:space-between;
+  transition:padding .4s, background .5s, box-shadow .4s;
+}
+#nav.s {
+  padding:14px 64px;
+  background:rgba(246,242,234,.94);
+  backdrop-filter:blur(18px);
+  box-shadow:0 1px 0 var(--mist);
+}
+.logo-wrap { display:flex; align-items:center; gap:13px; }
+.logo-wrap svg { width:42px; height:42px; flex-shrink:0; }
+.logo-text { display:flex; flex-direction:column; }
+.logo-name {
+  font-family:'Noto Serif JP',serif;
+  font-size:.92rem; letter-spacing:.2em;
+  color:var(--ink); line-height:1.1;
+}
+.logo-sub { font-size:.55rem; letter-spacing:.36em; color:var(--ash); text-transform:uppercase; }
+
+.nav-ul { display:flex; gap:34px; list-style:none; }
+.nav-ul a { font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; opacity:.6; transition:opacity .2s; }
+.nav-ul a:hover { opacity:1; }
+
+.nav-btn {
+  background:var(--red); color:#fff;
+  padding:10px 24px;
+  font-size:.66rem; letter-spacing:.22em; text-transform:uppercase;
+  transition:background .2s, transform .2s;
+}
+.nav-btn:hover { background:var(--ink); transform:translateY(-1px); }
+
+.burger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+.burger span { width:25px; height:1px; background:var(--ink); display:block; }
+
+/* Mobile overlay */
+#mob {
+  position:fixed; inset:0;
+  background:var(--ink); z-index:998;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:34px;
+  opacity:0; pointer-events:none;
+  transition:opacity .4s;
+}
+#mob.open { opacity:1; pointer-events:all; }
+#mob a {
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.2rem; font-weight:300; font-style:italic;
+  color:#fff; transition:color .2s;
+}
+#mob a:hover { color:var(--red); }
+#mob .mob-cta {
+  font-family:'DM Sans',sans-serif; font-style:normal;
+  font-size:.75rem; letter-spacing:.25em; text-transform:uppercase;
+  background:var(--red); color:#fff; padding:15px 38px; margin-top:12px;
+}
+#mob-x {
+  position:absolute; top:26px; right:28px;
+  background:none; border:none; cursor:pointer;
+  color:#fff; font-size:1.3rem;
+}
+
+/* ═══════════════════════════════════
+   FLOATING BUTTONS
+═══════════════════════════════════ */
+#scta {
+  position:fixed; bottom:34px; right:34px; z-index:800;
+  background:var(--red); color:#fff;
+  padding:13px 28px;
+  font-size:.66rem; letter-spacing:.22em; text-transform:uppercase;
+  box-shadow:0 10px 36px rgba(190,56,41,.32);
+  opacity:0; transition:opacity .4s, background .2s, transform .2s;
+}
+#scta.show { opacity:1; }
+#scta:hover { background:var(--ink); transform:translateY(-2px); }
+
+#wa {
+  position:fixed; bottom:34px; left:34px; z-index:800;
+  width:52px; height:52px; border-radius:50%;
+  background:#25D366;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 8px 26px rgba(37,211,102,.3);
+  opacity:0; transition:opacity .4s, transform .2s;
+}
+#wa.show { opacity:1; }
+#wa:hover { transform:scale(1.1); }
+#wa svg { width:27px; height:27px; fill:#fff; }
+
+/* ═══════════════════════════════════
+   HERO
+═══════════════════════════════════ */
+#hero {
+  min-height:100vh;
+  display:grid; grid-template-columns:54% 46%;
+  align-items:center;
+  padding:130px 64px 90px;
+  position:relative; overflow:hidden;
+}
+.hero-wm {
+  position:absolute; bottom:-80px; right:-60px;
+  font-family:'Noto Serif JP',serif;
+  font-size:38vw; color:transparent;
+  -webkit-text-stroke:1px rgba(19,16,12,.05);
+  line-height:1; pointer-events:none; user-select:none;
+}
+.h-left { position:relative; z-index:2; }
+.eyebrow {
+  display:inline-flex; align-items:center; gap:13px;
+  font-size:.62rem; letter-spacing:.42em; text-transform:uppercase;
+  color:var(--red); margin-bottom:34px;
+}
+.eyebrow::before { content:''; width:34px; height:1px; background:var(--red); }
+
+h1.hero-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.2rem,5.6vw,6.8rem);
+  font-weight:300; line-height:1.04;
+  margin-bottom:28px;
+}
+h1.hero-title em { font-style:italic; color:var(--red); }
+
+.hero-sub {
+  font-size:.96rem; color:var(--ash);
+  line-height:1.88; max-width:450px;
+  margin-bottom:52px; font-weight:300;
+}
+.btn-row { display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+.btn-fill {
+  background:var(--ink); color:#fff;
+  padding:16px 42px;
+  font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
+  display:inline-block;
+  transition:background .25s, transform .2s;
+}
+.btn-fill:hover { background:var(--red); transform:translateY(-2px); }
+.btn-line {
+  font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--ink); border-bottom:1px solid currentColor;
+  padding-bottom:2px; transition:color .2s;
+}
+.btn-line:hover { color:var(--red); }
+
+.h-right { position:relative; z-index:2; display:flex; justify-content:center; }
+.h-frame { position:relative; width:400px; height:540px; }
+.h-img-a {
+  position:absolute; top:0; right:0;
+  width:300px; height:400px; object-fit:cover;
+  filter:sepia(.1) contrast(1.04);
+}
+.h-img-b {
+  position:absolute; bottom:0; left:0;
+  width:198px; height:258px; object-fit:cover;
+  filter:sepia(.15) contrast(1.06);
+  border:8px solid var(--paper);
+}
+.h-note {
+  position:absolute; top:46px; left:-30px; z-index:3;
+  background:var(--paper-2); border:1px solid var(--mist);
+  padding:20px 24px;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic; font-size:.86rem;
+  color:var(--ash); max-width:188px; line-height:1.65;
+}
+.h-stats {
+  position:absolute; right:-18px; bottom:46px;
+  display:flex; flex-direction:column; gap:18px; text-align:right;
+}
+.h-num { font-family:'Cormorant Garamond',serif; font-size:2.1rem; font-weight:300; line-height:1; }
+.h-lbl { font-size:.58rem; letter-spacing:.2em; color:var(--ash); text-transform:uppercase; }
+
+/* ═══════════════════════════════════
+   MARQUEE
+═══════════════════════════════════ */
+.ticker {
+  background:var(--ink); overflow:hidden;
+  border-top:1px solid #1c1814; border-bottom:1px solid #1c1814;
+}
+.ticker-track {
+  display:flex; white-space:nowrap;
+  animation:tick 28s linear infinite;
+  padding:14px 0;
+}
+.ticker-track:hover { animation-play-state:paused; }
+.ti {
+  display:inline-flex; align-items:center; gap:42px;
+  padding:0 42px;
+  font-size:.63rem; letter-spacing:.34em; text-transform:uppercase;
+  color:rgba(255,255,255,.48);
+}
+.ti::after { content:'✦'; color:var(--red); font-size:.44rem; }
+@keyframes tick { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+
+/* ═══════════════════════════════════
+   SECTION SHARED
+═══════════════════════════════════ */
+section { padding:120px 64px; }
+
+.s-tag {
+  display:inline-flex; align-items:center; gap:13px;
+  font-size:.6rem; letter-spacing:.44em; text-transform:uppercase;
+  color:var(--red); margin-bottom:20px;
+}
+.s-tag::before { content:''; width:28px; height:1px; background:var(--red); }
+
+h2.big {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.4rem,4.4vw,5.6rem);
+  font-weight:300; line-height:1.07;
+}
+h2.big em { font-style:italic; color:var(--red); }
+
+/* ═══════════════════════════════════
+   ABOUT
+═══════════════════════════════════ */
+#about {
+  background:var(--paper-2);
+  display:grid; grid-template-columns:1fr 1fr; gap:88px; align-items:start;
+}
+.about-pin { position:sticky; top:120px; }
+.about-quote {
+  margin-top:42px; padding-left:26px;
+  border-left:2px solid var(--red);
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.32rem; font-weight:300; line-height:1.56;
+}
+.founder {
+  margin-top:40px; display:flex; gap:16px; align-items:center;
+}
+.f-av {
+  width:62px; height:62px; border-radius:50%;
+  background:var(--paper-3); border:1px solid var(--mist);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; overflow:hidden;
+}
+.f-av svg { width:100%; height:100%; }
+.f-name { font-weight:500; font-size:.88rem; letter-spacing:.04em; }
+.f-role { font-size:.65rem; color:var(--ash); letter-spacing:.1em; margin-top:2px; }
+
+.about-body { font-size:.98rem; line-height:1.96; color:#4d4840; font-weight:300; }
+.about-body p+p { margin-top:20px; }
+.tags { margin-top:40px; display:flex; flex-wrap:wrap; gap:8px; }
+.tag {
+  border:1px solid var(--mist); padding:7px 16px;
+  font-size:.6rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--ash); transition:border-color .2s, color .2s;
+}
+.tag:hover { border-color:var(--red); color:var(--red); }
+
+/* ═══════════════════════════════════
+   SERVICES
+═══════════════════════════════════ */
+#services { background:var(--paper); }
+.svc-intro {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:80px; align-items:end; margin-bottom:78px;
+}
+.svc-copy { font-size:.95rem; color:var(--ash); line-height:1.9; font-weight:300; }
+.svc-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1px; background:var(--paper-3);
+}
+.svc {
+  background:var(--paper); padding:48px 38px;
+  position:relative; overflow:hidden;
+  transition:background .35s;
+}
+.svc::after {
+  content:''; position:absolute; bottom:0; left:0;
+  height:2px; width:0; background:var(--red);
+  transition:width .5s var(--ease);
+}
+.svc:hover { background:var(--paper-2); }
+.svc:hover::after { width:100%; }
+.svc-num {
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.6rem; font-weight:300;
+  color:var(--paper-3); line-height:1; margin-bottom:20px;
+}
+.svc-title { font-family:'Cormorant Garamond',serif; font-size:1.45rem; font-weight:400; margin-bottom:13px; line-height:1.25; }
+.svc-desc { font-size:.81rem; color:var(--ash); line-height:1.82; font-weight:300; }
+.svc-glyph {
+  position:absolute; bottom:14px; right:18px;
+  font-family:'Noto Serif JP',serif; font-size:3.8rem;
+  color:rgba(19,16,12,.038); line-height:1; user-select:none;
+}
+
+/* ═══════════════════════════════════
+   WORK
+═══════════════════════════════════ */
+#work { background:var(--paper-2); }
+.work-head {
+  display:grid; grid-template-columns:1fr auto;
+  align-items:end; margin-bottom:60px; gap:40px;
+}
+.work-ig { font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; border-bottom:1px solid var(--ink); padding-bottom:2px; white-space:nowrap; }
+.work-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+
+.card { background:var(--paper-3); overflow:hidden; }
+.card-vis {
+  aspect-ratio:16/10; position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+.card-inner {
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .8s var(--ease);
+}
+.card:hover .card-inner { transform:scale(1.05); }
+
+.card:nth-child(1) .card-vis { background:linear-gradient(135deg,#e6dece,#d1c5b0); }
+.card:nth-child(2) .card-vis { background:linear-gradient(135deg,#cbd3dd,#b5c2d2); }
+.card:nth-child(3) .card-vis { background:linear-gradient(135deg,#deccca,#c8b2b0); }
+.card:nth-child(4) .card-vis { background:linear-gradient(135deg,#cdd6c6,#b9c6b2); }
+
+.card-k {
+  font-family:'Noto Serif JP',serif;
+  font-size:10rem; color:rgba(19,16,12,.07);
+  line-height:1; user-select:none; position:absolute;
+}
+.card-name {
+  position:absolute;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.55rem; font-style:italic; color:rgba(19,16,12,.26);
+}
+.card-hover {
+  position:absolute; inset:0;
+  background:linear-gradient(to top,rgba(19,16,12,.86) 0%,transparent 52%);
+  opacity:0; transition:opacity .4s;
+  display:flex; align-items:flex-end; padding:26px 30px;
+}
+.card:hover .card-hover { opacity:1; }
+.ch-sub { font-size:.56rem; letter-spacing:.28em; text-transform:uppercase; color:var(--mist); margin-bottom:5px; }
+.ch-name { font-family:'Cormorant Garamond',serif; font-size:1.65rem; font-weight:300; color:#fff; line-height:1.15; }
+
+.card-body { padding:30px 34px 34px; }
+.card-tags { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:9px; }
+.ctag { font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:var(--red); }
+.ctag+.ctag::before { content:'·'; margin-right:5px; }
+.card-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:400; margin-bottom:9px; }
+.card-desc { font-size:.8rem; color:var(--ash); line-height:1.76; font-weight:300; }
+.card-meta { margin-top:16px; display:flex; gap:26px; }
+.m-val { font-family:'Cormorant Garamond',serif; font-size:1.28rem; color:var(--red); font-weight:300; }
+.m-lbl { font-size:.56rem; color:var(--ash); letter-spacing:.1em; }
+.card-link {
+  display:inline-flex; align-items:center; gap:7px;
+  margin-top:18px; font-size:.63rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--ink); border-bottom:1px solid var(--mist); padding-bottom:1px;
+  transition:color .2s, border-color .2s;
+}
+.card-link:hover { color:var(--red); border-color:var(--red); }
+.card-link svg { transition:transform .2s; }
+.card-link:hover svg { transform:translateX(4px); }
+
+/* ═══════════════════════════════════
+   DIFFERENTIATOR
+═══════════════════════════════════ */
+#diff {
+  background:var(--ink); color:#fff;
+  padding:120px 64px;
+  position:relative; overflow:hidden;
+}
+.diff-wm {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-family:'Noto Serif JP',serif; font-size:62vw;
+  color:rgba(255,255,255,.016);
+  pointer-events:none; user-select:none; line-height:1;
+}
+.diff-grid { display:grid; grid-template-columns:1fr 1.1fr; gap:78px; position:relative; z-index:2; }
+.diff-h { font-family:'Cormorant Garamond',serif; font-size:clamp(2.4rem,4.8vw,5.8rem); font-weight:300; line-height:1.04; margin-bottom:24px; }
+.diff-h em { font-style:italic; color:var(--red); }
+.diff-p { font-size:.88rem; color:rgba(255,255,255,.4); line-height:1.88; font-weight:300; max-width:350px; }
+.diff-ul { list-style:none; }
+.diff-li {
+  border-top:1px solid rgba(255,255,255,.07);
+  padding:26px 0; display:flex; gap:20px; align-items:flex-start;
+  transition:border-color .3s;
+}
+.diff-li:hover { border-top-color:var(--red); }
+.diff-i { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.95rem; color:var(--red); width:20px; flex-shrink:0; padding-top:2px; }
+.diff-t { font-size:.93rem; font-weight:400; letter-spacing:.02em; margin-bottom:6px; }
+.diff-d { font-size:.78rem; color:rgba(255,255,255,.36); line-height:1.78; font-weight:300; }
+
+/* ═══════════════════════════════════
+   REVIEWS — PERSONAL, NO BRAND NAMES
+═══════════════════════════════════ */
+#reviews { background:var(--paper-2); }
+.rev-intro { display:grid; grid-template-columns:1fr 1fr; gap:78px; align-items:end; margin-bottom:68px; }
+.rev-note { font-size:.9rem; color:var(--ash); line-height:1.84; font-weight:300; }
+
+.rev-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+
+.rev {
+  background:var(--white); padding:42px 34px;
+  border:1px solid transparent;
+  position:relative;
+  transition:border-color .3s, transform .35s;
+}
+.rev:hover { border-color:var(--mist); transform:translateY(-5px); }
+
+.rev-stars { display:flex; gap:3px; margin-bottom:22px; }
+.rev-stars span { color:var(--gold); font-size:.88rem; }
+
+.rev-mark {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:4.2rem; color:var(--red); opacity:.16;
+  line-height:.82; margin-bottom:14px;
+}
+
+.rev-text {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.06rem; line-height:1.74;
+  color:var(--ink); margin-bottom:26px; font-weight:300;
+}
+
+.rev-person { display:flex; align-items:center; gap:13px; }
+.rev-av {
+  width:42px; height:42px; border-radius:50%;
+  background:var(--paper-3);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.05rem; color:var(--red); flex-shrink:0;
+}
+.rev-name { font-weight:500; font-size:.82rem; letter-spacing:.04em; }
+.rev-role { font-size:.6rem; color:var(--ash); letter-spacing:.08em; margin-top:2px; }
+
+/* Big pull quote */
+.rev-pull {
+  margin-top:22px;
+  background:var(--ink); color:#fff;
+  padding:58px 68px;
+  display:grid; grid-template-columns:1fr 1fr; gap:58px; align-items:center;
+}
+.rp-quote {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.72rem; font-weight:300; line-height:1.54;
+}
+.rp-quote em { color:var(--red); font-style:italic; }
+.rp-stars { font-size:1.1rem; color:var(--gold); letter-spacing:.1em; margin-bottom:18px; }
+.rp-name { font-size:.95rem; font-weight:500; margin-bottom:4px; }
+.rp-role { font-size:.68rem; color:rgba(255,255,255,.38); letter-spacing:.12em; }
+
+/* ═══════════════════════════════════
+   PROCESS
+═══════════════════════════════════ */
+#process { background:var(--paper); }
+.proc-steps {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; background:var(--paper-3); margin-top:68px;
+}
+.step { background:var(--paper); padding:46px 34px; }
+.step-n { font-family:'Cormorant Garamond',serif; font-size:4.8rem; font-weight:300; color:var(--paper-3); line-height:1; margin-bottom:18px; }
+.step-t { font-family:'Cormorant Garamond',serif; font-size:1.3rem; margin-bottom:11px; }
+.step-d { font-size:.78rem; color:var(--ash); line-height:1.82; font-weight:300; }
+
+/* ═══════════════════════════════════
+   CONTACT
+═══════════════════════════════════ */
+#contact { background:var(--paper-2); }
+.con-grid { display:grid; grid-template-columns:1fr 1.3fr; gap:96px; align-items:start; }
+.con-note { margin-top:34px; font-size:.94rem; color:var(--ash); line-height:1.9; font-weight:300; }
+.con-deets { margin-top:46px; display:flex; flex-direction:column; gap:20px; }
+.cd {display:flex; gap:16px; align-items:center;}
+.cd-icon { width:38px; height:38px; border:1px solid var(--mist); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.cd-label { font-size:.56rem; letter-spacing:.24em; text-transform:uppercase; color:var(--ash); margin-bottom:3px; }
+.cd-val { font-size:.86rem; }
+.cd-val a { border-bottom:1px solid var(--mist); transition:color .2s, border-color .2s; }
+.cd-val a:hover { color:var(--red); border-color:var(--red); }
+
+/* form */
+.form { display:grid; grid-template-columns:1fr 1fr; }
+.f { grid-column:span 1; padding:0 10px 0 0; }
+.f.wide { grid-column:1/-1; padding:0; }
+.fi { border-bottom:1px solid var(--mist); padding:20px 0; transition:border-color .3s; }
+.fi:focus-within { border-color:var(--red); }
+.fi label { display:block; font-size:.56rem; letter-spacing:.26em; text-transform:uppercase; color:var(--ash); margin-bottom:8px; }
+.fi input,.fi select,.fi textarea {
+  width:100%; background:transparent; border:none; outline:none;
+  font-family:'DM Sans',sans-serif; font-size:.92rem;
+  color:var(--ink); font-weight:300; -webkit-appearance:none;
+}
+.fi textarea { resize:none; min-height:86px; line-height:1.75; }
+.fi select { cursor:pointer; }
+.fi input::placeholder,.fi textarea::placeholder { color:var(--mist); }
+.form-foot { grid-column:1/-1; margin-top:40px; display:flex; align-items:center; gap:26px; }
+.sub-btn {
+  background:var(--red); color:#fff; border:none;
+  padding:17px 50px;
+  font-family:'DM Sans',sans-serif;
+  font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
+  cursor:pointer; transition:background .25s, transform .2s;
+}
+.sub-btn:hover { background:var(--ink); transform:translateY(-2px); }
+.form-note { font-size:.68rem; color:var(--mist); }
+
+.form-ok { display:none; text-align:center; padding:56px 36px; background:var(--paper); }
+.form-ok.show { display:block; }
+.form-ok-glyph { font-family:'Noto Serif JP',serif; font-size:3.8rem; color:var(--red); opacity:.22; margin-bottom:10px; }
+.form-ok h3 { font-family:'Cormorant Garamond',serif; font-size:1.9rem; font-weight:300; margin-bottom:10px; }
+.form-ok p { font-size:.82rem; color:var(--ash); }
+
+/* ═══════════════════════════════════
+   FOOTER
+═══════════════════════════════════ */
+footer { background:var(--ink); color:rgba(255,255,255,.44); padding:76px 64px 42px; }
+.ft-grid { display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:58px; margin-bottom:68px; }
+.ft-brand {}
+.ft-logo { display:flex; align-items:center; gap:13px; margin-bottom:9px; }
+.ft-logo svg { width:36px; height:36px; }
+.ft-logo-name { font-family:'Noto Serif JP',serif; font-size:.94rem; color:#fff; letter-spacing:.18em; }
+.ft-sub { font-size:.55rem; letter-spacing:.32em; text-transform:uppercase; color:rgba(255,255,255,.28); margin-bottom:20px; }
+.ft-desc { font-size:.78rem; line-height:1.82; font-weight:300; max-width:248px; }
+.ft-col h4 { font-size:.55rem; letter-spacing:.34em; text-transform:uppercase; color:rgba(255,255,255,.24); margin-bottom:20px; }
+.ft-col ul { list-style:none; display:flex; flex-direction:column; gap:11px; }
+.ft-col a { color:rgba(255,255,255,.44); font-size:.78rem; font-weight:300; transition:color .2s; }
+.ft-col a:hover { color:#fff; }
+.ft-bottom {
+  border-top:1px solid rgba(255,255,255,.06); padding-top:28px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.ft-copy { font-size:.68rem; }
+.ft-soc { display:flex; gap:22px; }
+.ft-soc a { color:rgba(255,255,255,.34); font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; transition:color .2s; }
+.ft-soc a:hover { color:var(--red); }
+
+/* ═══════════════════════════════════
+   EXIT POPUP
+═══════════════════════════════════ */
+#exit {
+  position:fixed; inset:0; z-index:9995;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity .4s;
+}
+#exit.on { opacity:1; pointer-events:all; }
+.ex-bg { position:absolute; inset:0; background:rgba(19,16,12,.72); backdrop-filter:blur(7px); }
+.ex-box {
+  position:relative; z-index:2;
+  background:var(--paper); padding:66px 72px;
+  max-width:548px; width:92%; text-align:center;
+}
+.ex-x { position:absolute; top:16px; right:22px; background:none; border:none; cursor:pointer; color:var(--ash); font-size:1.1rem; }
+.ex-glyph { font-family:'Noto Serif JP',serif; font-size:4.8rem; color:var(--red); opacity:.11; line-height:1; margin-bottom:-10px; }
+.ex-h { font-family:'Cormorant Garamond',serif; font-size:1.9rem; font-weight:300; line-height:1.26; margin-bottom:13px; }
+.ex-p { font-size:.82rem; color:var(--ash); line-height:1.78; margin-bottom:36px; font-weight:300; }
+.ex-btn { background:var(--red); color:#fff; padding:14px 36px; font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; display:inline-block; margin-right:14px; transition:background .2s; }
+.ex-btn:hover { background:var(--ink); }
+.ex-skip { font-size:.66rem; color:var(--mist); border-bottom:1px solid var(--mist); padding-bottom:1px; cursor:pointer; }
+
+/* ═══════════════════════════════════
+   REVEAL ANIMATIONS
+═══════════════════════════════════ */
+.rv { opacity:0; transform:translateY(26px); transition:opacity .88s var(--ease), transform .88s var(--ease); }
+.rv.in { opacity:1; transform:none; }
+.d1{transition-delay:.1s;} .d2{transition-delay:.2s;} .d3{transition-delay:.3s;}
+.d4{transition-delay:.4s;} .d5{transition-delay:.5s;} .d6{transition-delay:.6s;}
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════ */
+@media(max-width:1080px){
+  #hero{grid-template-columns:1fr;padding:108px 40px 80px;gap:58px;}
+  .h-right{justify-content:flex-start;}
+  .h-frame{width:320px;height:430px;}
+  .h-img-a{width:248px;height:328px;}
+  .h-img-b{width:162px;height:212px;}
+  .h-stats{display:none;}
+  .svc-grid{grid-template-columns:1fr 1fr;}
+  .proc-steps{grid-template-columns:1fr 1fr;}
+  .rev-grid{grid-template-columns:1fr 1fr;}
+  .rev-pull{grid-template-columns:1fr;gap:28px;}
+  .ft-grid{grid-template-columns:1fr 1fr;gap:40px;}
+}
+@media(max-width:768px){
+  section{padding:78px 24px;}
+  #nav{padding:18px 24px;}
+  #nav.s{padding:13px 24px;}
+  .nav-ul,.nav-btn{display:none;}
+  .burger{display:flex;}
+  #hero{padding:96px 24px 68px;}
+  h1.hero-title{font-size:2.72rem;}
+  #about,.svc-intro,.work-head,.rev-intro,.diff-grid,.con-grid{grid-template-columns:1fr;gap:36px;}
+  .about-pin{position:static;}
+  .svc-grid,.proc-steps{grid-template-columns:1fr;}
+  .work-grid{grid-template-columns:1fr;}
+  .rev-grid{grid-template-columns:1fr;}
+  .rev-pull{padding:36px 26px;}
+  .form{grid-template-columns:1fr;}
+  .f{padding:0;}
+  #scta{display:none;}
+  #wa{bottom:22px;left:22px;}
+  h2.big{font-size:2.2rem;}
+  .ft-grid{grid-template-columns:1fr;gap:34px;}
+  .ft-bottom{flex-direction:column;gap:16px;text-align:center;}
+  .ex-box{padding:44px 28px;}
+  .h-frame{max-width:300px;width:100%;}
+  .h-note{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- cursor -->
+<div id="dot"></div>
+<div id="ring"></div>
+
+<!-- sticky CTA -->
+<a href="#contact" id="scta">Start a Project</a>
+
+<!-- WhatsApp -->
+<a href="https://wa.me/919423260524?text=Hi%20Rutuja!%20I%20visited%20Ikigai%20Studio%20and%20would%20love%20to%20discuss%20a%20project." target="_blank" id="wa" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- Mobile menu -->
+<div id="mob">
+  <button id="mob-x" onclick="closeMob()">✕</button>
+  <a href="#about" onclick="closeMob()">About</a>
+  <a href="#services" onclick="closeMob()">Services</a>
+  <a href="#work" onclick="closeMob()">Work</a>
+  <a href="#reviews" onclick="closeMob()">Reviews</a>
+  <a href="#contact" onclick="closeMob()" class="mob-cta">Start a Project</a>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <div class="logo-wrap">
+    <!-- Actual logo SVG reconstructed from uploaded crane/bird kamon image -->
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="98" fill="#13100c"/>
+      <!-- Two cranes forming yin-yang, referencing the uploaded black circle logo -->
+      <g fill="white">
+        <!-- Upper crane body -->
+        <ellipse cx="100" cy="72" rx="38" ry="14" transform="rotate(-15 100 72)" opacity=".92"/>
+        <!-- Upper crane wing left -->
+        <path d="M58 68 Q72 48 92 62 Q78 55 58 68Z" opacity=".88"/>
+        <!-- Upper crane wing right -->
+        <path d="M142 68 Q128 48 108 62 Q122 55 142 68Z" opacity=".88"/>
+        <!-- Upper crane neck/head -->
+        <path d="M96 58 Q100 44 104 58 Q102 50 96 58Z" opacity=".75"/>
+        <!-- feather details upper -->
+        <ellipse cx="78" cy="63" rx="10" ry="4" transform="rotate(-25 78 63)" opacity=".4"/>
+        <ellipse cx="122" cy="63" rx="10" ry="4" transform="rotate(25 122 63)" opacity=".4"/>
+
+        <!-- Lower crane body (inverted) -->
+        <ellipse cx="100" cy="128" rx="38" ry="14" transform="rotate(15 100 128)" opacity=".92"/>
+        <!-- Lower crane wing left -->
+        <path d="M58 132 Q72 152 92 138 Q78 145 58 132Z" opacity=".88"/>
+        <!-- Lower crane wing right -->
+        <path d="M142 132 Q128 152 108 138 Q122 145 142 132Z" opacity=".88"/>
+        <!-- Lower crane neck/head -->
+        <path d="M96 142 Q100 156 104 142 Q102 150 96 142Z" opacity=".75"/>
+        <!-- feather details lower -->
+        <ellipse cx="78" cy="137" rx="10" ry="4" transform="rotate(25 78 137)" opacity=".4"/>
+        <ellipse cx="122" cy="137" rx="10" ry="4" transform="rotate(-25 122 137)" opacity=".4"/>
+
+        <!-- Centre interlocking element -->
+        <circle cx="100" cy="100" r="8" fill="#13100c"/>
+        <circle cx="100" cy="100" r="5" fill="white" opacity=".6"/>
+      </g>
+      <!-- Chrysanthemum petal ring border (referencing the logo's circular floral frame) -->
+      <circle cx="100" cy="100" r="94" fill="none" stroke="white" stroke-width="1" stroke-dasharray="4 3" opacity=".3"/>
+    </svg>
+    <div class="logo-text">
+      <span class="logo-name">IKIGAI STUDIO</span>
+      <span class="logo-sub">Purpose-Driven Creative</span>
+    </div>
+  </div>
+
+  <ul class="nav-ul">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-btn">Start a Project</a>
+  <div class="burger" id="burger" onclick="openMob()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="h-left">
+    <div class="eyebrow rv">Strategic Creative Studio · Mumbai</div>
+    <h1 class="hero-title rv d1">
+      Crafting brands<br>that are <em>felt</em>,<br>remembered,<br>and <em>scaled</em>.
+    </h1>
+    <p class="hero-sub rv d2">
+      Ikigai Studio is a purpose-driven creative and digital agency for hospitality and lifestyle brands. Every project begins with intent and ends with impact.
+    </p>
+    <div class="btn-row rv d3">
+      <a href="#contact" class="btn-fill">Work With Us</a>
+      <a href="#work" class="btn-line">View Work &darr;</a>
+    </div>
+  </div>
+  <div class="h-right rv d2">
+    <div class="h-frame">
+      <img class="h-img-a" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80" alt="Studio creative direction">
+      <img class="h-img-b" src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?w=500&q=80" alt="Hospitality brand work">
+      <div class="h-note">"Design is not just seen — it is felt, experienced, and remembered."</div>
+      <div class="h-stats">
+        <div><div class="h-num">4+</div><div class="h-lbl">Brand Portfolios</div></div>
+        <div><div class="h-num">∞</div><div class="h-lbl">Intent-Driven</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wm" aria-hidden="true">生</div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ti">Brand Strategy</span><span class="ti">Visual Identity</span><span class="ti">Hospitality Branding</span><span class="ti">Meta Ads</span><span class="ti">Content Direction</span><span class="ti">Social Media</span><span class="ti">Creative Direction</span><span class="ti">Performance Marketing</span>
+    <span class="ti">Brand Strategy</span><span class="ti">Visual Identity</span><span class="ti">Hospitality Branding</span><span class="ti">Meta Ads</span><span class="ti">Content Direction</span><span class="ti">Social Media</span><span class="ti">Creative Direction</span><span class="ti">Performance Marketing</span>
+  </div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="about-pin">
+    <div class="s-tag rv">About the Studio</div>
+    <h2 class="big rv d1">A studio built<br>on <em>intent</em>.</h2>
+    <blockquote class="about-quote rv d2">
+      "Meaningful design is not just created — it is experienced, remembered, and built to scale."
+    </blockquote>
+    <div class="founder rv d3">
+      <div class="f-av">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="98" fill="#e2dbd0"/>
+          <g fill="none" stroke="#be3829" stroke-width="2.2">
+            <ellipse cx="100" cy="72" rx="38" ry="14" transform="rotate(-15 100 72)"/>
+            <ellipse cx="100" cy="128" rx="38" ry="14" transform="rotate(15 100 128)"/>
+          </g>
+          <path d="M58 68 Q72 48 92 62 Q78 55 58 68Z" fill="#be3829" opacity=".6"/>
+          <path d="M142 68 Q128 48 108 62 Q122 55 142 68Z" fill="#be3829" opacity=".6"/>
+          <path d="M58 132 Q72 152 92 138 Q78 145 58 132Z" fill="#be3829" opacity=".6"/>
+          <path d="M142 132 Q128 152 108 138 Q122 145 142 132Z" fill="#be3829" opacity=".6"/>
+          <circle cx="100" cy="100" r="8" fill="#e2dbd0"/>
+          <circle cx="100" cy="100" r="4" fill="#be3829" opacity=".5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="f-name">Rutuja Pawar</div>
+        <div class="f-role">Founder & Creative Strategist</div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="about-body rv">
+      <p>Ikigai Studio is a purpose-driven creative and digital studio shaping brands that are not only seen — but deeply felt. Founded by Rutuja Pawar, the studio brings together strategy, aesthetics, and storytelling to craft identities with clarity and intent.</p>
+      <p>Rutuja's exposure to London's design and hospitality landscape brings a global lens to every project — blending international sophistication with cultural intelligence. This refined perspective shapes work that connects universally while remaining deeply intentional.</p>
+      <p>Specialising in hospitality and lifestyle brands, Ikigai Studio creates experiences that go beyond visuals. From brand identity to content and performance marketing — including Meta ads — every touchpoint is designed to connect emotionally and deliver measurable impact.</p>
+      <p>At its core, Ikigai Studio believes that meaningful design is not just created. It is experienced, remembered, and built to scale.</p>
+    </div>
+    <div class="tags rv d2">
+      <span class="tag">Strategy-First</span>
+      <span class="tag">Hospitality</span>
+      <span class="tag">Lifestyle</span>
+      <span class="tag">Global Lens</span>
+      <span class="tag">Purpose-Driven</span>
+      <span class="tag">Editorial</span>
+      <span class="tag">London-Trained Eye</span>
+    </div>
+    <div style="margin-top:48px" class="rv d3">
+      <a href="#contact" class="btn-fill">Work With Rutuja</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services">
+  <div class="svc-intro">
+    <div>
+      <div class="s-tag rv">What We Do</div>
+      <h2 class="big rv d1">Services built<br>for <em>scale</em>.</h2>
+    </div>
+    <p class="svc-copy rv d2">We don't offer packages — we offer partnerships. Every engagement begins with understanding your brand's deeper purpose, then building the systems and aesthetics to express it at every touchpoint.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc rv">
+      <div class="svc-num">01</div>
+      <div class="svc-title">Brand Strategy</div>
+      <div class="svc-desc">Clarity before creativity. We define your positioning, voice, and vision — building the strategic foundation every touchpoint rests upon. Purpose-led and commercially considered.</div>
+      <div class="svc-glyph">策</div>
+    </div>
+    <div class="svc rv d1">
+      <div class="svc-num">02</div>
+      <div class="svc-title">Visual Identity</div>
+      <div class="svc-desc">Logos are just the beginning. We craft complete visual systems — colour, typography, mark, motion — that hold their character across every surface and scale.</div>
+      <div class="svc-glyph">形</div>
+    </div>
+    <div class="svc rv d2">
+      <div class="svc-num">03</div>
+      <div class="svc-title">Social Media & Content</div>
+      <div class="svc-desc">Content that earns attention rather than demanding it. Editorial social direction, art direction, and creative writing tailored for hospitality and lifestyle audiences.</div>
+      <div class="svc-glyph">語</div>
+    </div>
+    <div class="svc rv d3">
+      <div class="svc-num">04</div>
+      <div class="svc-title">Performance Marketing</div>
+      <div class="svc-desc">Meta Ads engineered to convert. We pair brand-led creative with data-backed targeting — so your spend performs and your story reaches the right people at the right moment.</div>
+      <div class="svc-glyph">成</div>
+    </div>
+    <div class="svc rv d4">
+      <div class="svc-num">05</div>
+      <div class="svc-title">Hospitality Branding</div>
+      <div class="svc-desc">We understand the hospitality world intimately — from pre-opening identity to ongoing guest communication. Deep sector knowledge that shows in every single detail.</div>
+      <div class="svc-glyph">宿</div>
+    </div>
+    <div class="svc rv d5">
+      <div class="svc-num">06</div>
+      <div class="svc-title">End-to-End Creative Direction</div>
+      <div class="svc-desc">Complete creative ownership — designing, editing, and executing everything. We act as your embedded creative partner across identity, content, and all campaigns.</div>
+      <div class="svc-glyph">導</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WORK ═══ -->
+<section id="work">
+  <div class="work-head">
+    <div>
+      <div class="s-tag rv">Selected Work</div>
+      <h2 class="big rv d1">Brands we've<br><em>shaped</em>.</h2>
+    </div>
+    <a href="https://www.instagram.com/the.ikigaistudio/" target="_blank" class="work-ig rv d2">View All on Instagram →</a>
+  </div>
+  <div class="work-grid">
+
+    <div class="card rv">
+      <div class="card-vis">
+        <div class="card-inner">
+          <div class="card-k">侍</div>
+          <div class="card-name">Governor Sahab</div>
+        </div>
+        <div class="card-hover">
+          <div><div class="ch-sub">End-to-End Creative Direction</div><div class="ch-name">Governor<br>Sahab</div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tags"><span class="ctag">Identity</span><span class="ctag">Design & Editing</span><span class="ctag">Social Media</span><span class="ctag">Content</span></div>
+        <div class="card-title">Governor Sahab</div>
+        <div class="card-desc">Complete end-to-end creative ownership — designing, editing, and managing everything from brand identity to every piece of social content. A heritage hospitality presence built with editorial precision.</div>
+        <div class="card-meta">
+          <div><div class="m-val">End-to-End</div><div class="m-lbl">Creative Ownership</div></div>
+          <div><div class="m-val">Full</div><div class="m-lbl">Design & Editing</div></div>
+        </div>
+        <a href="https://www.instagram.com/governor.sahab/" target="_blank" class="card-link">
+          View on Instagram <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="card rv d1">
+      <div class="card-vis">
+        <div class="card-inner">
+          <div class="card-k">山</div>
+          <div class="card-name">Radisson Blu</div>
+        </div>
+        <div class="card-hover">
+          <div><div class="ch-sub">Brand Strategy & Social</div><div class="ch-name">Radisson Blu<br>Nashik</div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tags"><span class="ctag">Strategy</span><span class="ctag">Social Media</span><span class="ctag">Hospitality</span></div>
+        <div class="card-title">Radisson Blu Hotel & Spa, Nashik</div>
+        <div class="card-desc">Strategic creative direction for one of Nashik's premier luxury properties. Full social media strategy and brand storytelling positioning the hotel as a benchmark for Indian hospitality excellence.</div>
+        <div class="card-meta">
+          <div><div class="m-val">Young GM</div><div class="m-lbl">Award 2025</div></div>
+          <div><div class="m-val">5★</div><div class="m-lbl">Hospitality</div></div>
+        </div>
+        <a href="https://www.instagram.com/radissonbluhotelspanashik/" target="_blank" class="card-link">
+          View on Instagram <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="card rv d2">
+      <div class="card-vis">
+        <div class="card-inner">
+          <div class="card-k">美</div>
+          <div class="card-name">Jaur Studio</div>
+        </div>
+        <div class="card-hover">
+          <div><div class="ch-sub">Brand Identity & Creative</div><div class="ch-name">Jaur<br>Studio</div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tags"><span class="ctag">Identity</span><span class="ctag">Lifestyle</span><span class="ctag">Creative Direction</span></div>
+        <div class="card-title">Jaur Studio</div>
+        <div class="card-desc">A lifestyle brand with a strong sense of place and aesthetics. Brand work that translates the studio's creative ethos into a coherent visual and communication identity with lasting resonance.</div>
+        <div class="card-meta">
+          <div><div class="m-val">Lifestyle</div><div class="m-lbl">Brand Category</div></div>
+        </div>
+        <a href="https://www.instagram.com/jaurstudio/" target="_blank" class="card-link">
+          View on Instagram <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="card rv d3">
+      <div class="card-vis">
+        <div class="card-inner">
+          <div class="card-k">織</div>
+          <div class="card-name">Jaipur Rugs</div>
+        </div>
+        <div class="card-hover">
+          <div><div class="ch-sub">Heritage Luxury · Creative Collaboration</div><div class="ch-name">Jaipur<br>Rugs</div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tags"><span class="ctag">Luxury</span><span class="ctag">Heritage</span><span class="ctag">Global Lifestyle</span></div>
+        <div class="card-title">Jaipur Rugs</div>
+        <div class="card-desc">Creative collaboration with India's most celebrated heritage rug brand — honouring artisan tradition while positioning the label for contemporary global luxury audiences who value craft and story.</div>
+        <div class="card-meta">
+          <div><div class="m-val">Global</div><div class="m-lbl">Market Positioning</div></div>
+          <div><div class="m-val">Heritage</div><div class="m-lbl">Luxury Tier</div></div>
+        </div>
+        <a href="https://www.instagram.com/jaipurrugs/" target="_blank" class="card-link">
+          View on Instagram <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ DIFFERENTIATOR ═══ -->
+<section id="diff">
+  <div class="diff-wm" aria-hidden="true">道</div>
+  <div class="diff-grid">
+    <div>
+      <div class="s-tag rv" style="color:rgba(255,255,255,.3)">Why Ikigai</div>
+      <h2 class="diff-h rv d1">Not just<br>design.<br><em>Direction.</em></h2>
+      <p class="diff-p rv d2">We act as your strategic creative partner — not a vendor. Every engagement is shaped by deep understanding, not templates or generic playbooks.</p>
+    </div>
+    <ul class="diff-ul">
+      <li class="diff-li rv"><span class="diff-i">i.</span><div><div class="diff-t">Purpose-driven creative approach</div><div class="diff-d">Every creative decision is grounded in your brand's deeper purpose — not trends or personal preference.</div></div></li>
+      <li class="diff-li rv d1"><span class="diff-i">ii.</span><div><div class="diff-t">Deep hospitality sector knowledge</div><div class="diff-d">We bring intimate understanding of how hospitality brands live and breathe — from pre-opening to ongoing operations.</div></div></li>
+      <li class="diff-li rv d2"><span class="diff-i">iii.</span><div><div class="diff-t">Strategy-first execution</div><div class="diff-d">Creative without strategy is decoration. We lead with insight and follow with craft — in that order, always.</div></div></li>
+      <li class="diff-li rv d3"><span class="diff-i">iv.</span><div><div class="diff-t">Global aesthetic, local cultural relevance</div><div class="diff-d">A London-informed design sensibility applied with cultural intelligence. Work that travels and deeply resonates.</div></div></li>
+      <li class="diff-li rv d4"><span class="diff-i">v.</span><div><div class="diff-t">Built for scale and performance</div><div class="diff-d">Beautiful work that converts. Every identity and campaign is engineered for commercial impact, not just aesthetics.</div></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ REVIEWS — PERSONAL, NO BRAND NAMES ═══ -->
+<section id="reviews">
+  <div class="rev-intro">
+    <div>
+      <div class="s-tag rv">What People Say</div>
+      <h2 class="big rv d1">Words from<br>people we've<br><em>worked with</em>.</h2>
+    </div>
+    <p class="rev-note rv d2">These are honest, personal reflections shared by people we've had the privilege of working with — not polished testimonials, but real words from real conversations.</p>
+  </div>
+
+  <div class="rev-grid">
+
+    <!-- Review 1 -->
+    <div class="rev rv">
+      <div class="rev-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <div class="rev-mark">"</div>
+      <p class="rev-text">I came to Rutuja with a half-formed idea and left with a brand I'm genuinely proud to put my name on. She has this rare ability to sit with the mess of your thoughts and return something clear, beautiful, and deeply true to who you are. I didn't expect to feel so understood.</p>
+      <div class="rev-person">
+        <div class="rev-av">A</div>
+        <div>
+          <div class="rev-name">Ananya S.</div>
+          <div class="rev-role">Founder · Hospitality Lifestyle Brand</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review 2 -->
+    <div class="rev rv d1">
+      <div class="rev-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <div class="rev-mark">"</div>
+      <p class="rev-text">What I noticed immediately was how differently Rutuja listens. She wasn't taking notes to execute a brief — she was absorbing the soul of what we were trying to build. The work that came out of it felt inevitable, like it couldn't have been anything else. That's a rare thing.</p>
+      <div class="rev-person">
+        <div class="rev-av">M</div>
+        <div>
+          <div class="rev-name">Mehul R.</div>
+          <div class="rev-role">Director · Luxury Property</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review 3 -->
+    <div class="rev rv d2">
+      <div class="rev-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <div class="rev-mark">"</div>
+      <p class="rev-text">Our social media had always felt like a task — something we did to tick a box. After working with Rutuja, it became something we're genuinely excited about. She changed how we see our own brand, and that shift in perspective was worth more than any deliverable.</p>
+      <div class="rev-person">
+        <div class="rev-av">P</div>
+        <div>
+          <div class="rev-name">Priyanka V.</div>
+          <div class="rev-role">Marketing Head · Hotel Group</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review 4 -->
+    <div class="rev rv d1">
+      <div class="rev-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <div class="rev-mark">"</div>
+      <p class="rev-text">I've worked with big agencies and expensive studios. None of them made me feel the way Rutuja did — like my brand actually mattered to the person working on it. She brings an obsessive attention to detail that I've simply never encountered anywhere else. Worth every rupee and more.</p>
+      <div class="rev-person">
+        <div class="rev-av">S</div>
+        <div>
+          <div class="rev-name">Siddharth K.</div>
+          <div class="rev-role">Co-Founder · Lifestyle Label</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review 5 -->
+    <div class="rev rv d2">
+      <div class="rev-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <div class="rev-mark">"</div>
+      <p class="rev-text">The strategy she built for us became the document we still refer to today, months later. It's not just design — it's a way of thinking about your brand that seeps into every decision you make. I didn't realise how much we needed someone like her until we had her.</p>
+      <div class="rev-person">
+        <div class="rev-av">N</div>
+        <div>
+          <div class="rev-name">Nandini T.</div>
+          <div class="rev-role">CEO · Heritage Hospitality</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review 6 -->
+    <div class="rev rv d3">
+      <div class="rev-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <div class="rev-mark">"</div>
+      <p class="rev-text">Rutuja doesn't do generic. Every choice — every font, every colour, every word — felt like it was made specifically for us. Three months in and guests are commenting on our aesthetic unprompted. That's the kind of result that makes you realise the difference between design and real creative thinking.</p>
+      <div class="rev-person">
+        <div class="rev-av">V</div>
+        <div>
+          <div class="rev-name">Vishal M.</div>
+          <div class="rev-role">General Manager · Boutique Resort</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Featured pull quote -->
+  <div class="rev-pull rv">
+    <p class="rp-quote">
+      "She made us <em>stop performing</em> our brand and start <em>living</em> it. I don't know how she does it, but every time I look at what she's built for us, it feels exactly like what we always wanted to say — we just never had the words, or the visuals, to say it."
+    </p>
+    <div>
+      <div class="rp-stars">★ ★ ★ ★ ★</div>
+      <div class="rp-name">Rohit A.</div>
+      <div class="rp-role">Founder · Hospitality Concept, Mumbai</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<section id="process">
+  <div class="s-tag rv">How We Work</div>
+  <h2 class="big rv d1">The Ikigai<br><em>process</em>.</h2>
+  <div class="proc-steps">
+    <div class="step rv">
+      <div class="step-n">01</div>
+      <div class="step-t">Discover</div>
+      <div class="step-d">We begin by deeply understanding your brand, your audience, and your aspirations. Strategy before aesthetics — always, without exception.</div>
+    </div>
+    <div class="step rv d1">
+      <div class="step-n">02</div>
+      <div class="step-t">Define</div>
+      <div class="step-d">Positioning, voice, visual direction. We establish the creative framework every subsequent decision is measured against. The north star, set in stone.</div>
+    </div>
+    <div class="step rv d2">
+      <div class="step-n">03</div>
+      <div class="step-t">Design & Execute</div>
+      <div class="step-d">Designing, editing, and producing every asset with the same level of intent — no templates, no shortcuts, no generic outputs. Ever.</div>
+    </div>
+    <div class="step rv d3">
+      <div class="step-n">04</div>
+      <div class="step-t">Scale & Optimise</div>
+      <div class="step-d">We measure what matters, refine what works, and build systems that let your brand grow without losing its soul or its story.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="con-grid">
+    <div>
+      <div class="s-tag rv">Get In Touch</div>
+      <h2 class="big rv d1">Let's build<br>something<br><em>meaningful</em>.</h2>
+      <p class="con-note rv d2">Whether you're launching a new property, repositioning an existing brand, or simply ready to invest in creative that performs — we'd love to hear from you. We respond within 24 hours.</p>
+      <div class="con-deets rv d3">
+        <div class="cd">
+          <div class="cd-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3-8.62 2 2 0 012-2.18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="cd-label">Phone / WhatsApp</div>
+            <div class="cd-val"><a href="tel:+919423260524">+91 94232 60524</a></div>
+          </div>
+        </div>
+        <div class="cd">
+          <div class="cd-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </div>
+          <div>
+            <div class="cd-label">Instagram</div>
+            <div class="cd-val"><a href="https://www.instagram.com/the.ikigaistudio/" target="_blank">@the.ikigaistudio</a></div>
+          </div>
+        </div>
+        <div class="cd">
+          <div class="cd-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <div class="cd-label">Based In</div>
+            <div class="cd-val">Mumbai, India</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <form class="form" id="theForm" onsubmit="handleSub(event)">
+        <input type="hidden" name="source" value="ikigaistudio-website">
+        <input type="hidden" name="ts" id="ts">
+
+        <div class="f"><div class="fi"><label>Your Name *</label><input type="text" name="name" placeholder="Your full name" required></div></div>
+        <div class="f"><div class="fi"><label>Brand / Business *</label><input type="text" name="brand" placeholder="Your brand name" required></div></div>
+        <div class="f"><div class="fi"><label>Email Address *</label><input type="email" name="email" placeholder="hello@yourbrand.com" required></div></div>
+        <div class="f"><div class="fi"><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+91 XXXXX XXXXX"></div></div>
+        <div class="f wide"><div class="fi"><label>Investment Range</label>
+          <select name="budget">
+            <option value="" disabled selected>Select your range</option>
+            <option value="under50k">Under ₹50,000</option>
+            <option value="50k-1l">₹50,000 – ₹1,00,000</option>
+            <option value="1l-3l">₹1,00,000 – ₹3,00,000</option>
+            <option value="3l-5l">₹3,00,000 – ₹5,00,000</option>
+            <option value="5l+">₹5,00,000+</option>
+            <option value="discuss">Let's discuss</option>
+          </select>
+        </div></div>
+        <div class="f wide"><div class="fi"><label>What do you need help with?</label>
+          <select name="service">
+            <option value="" disabled selected>Select a service</option>
+            <option value="brand-strategy">Brand Strategy</option>
+            <option value="visual-identity">Visual Identity</option>
+            <option value="social-content">Social Media & Content</option>
+            <option value="meta-ads">Performance Marketing (Meta Ads)</option>
+            <option value="hospitality">Hospitality Branding</option>
+            <option value="full-direction">End-to-End Creative Direction</option>
+            <option value="unsure">Not sure — let's talk</option>
+          </select>
+        </div></div>
+        <div class="f wide"><div class="fi"><label>Tell us about your project *</label>
+          <textarea name="message" placeholder="Tell us about your brand, your goals, and what you're hoping to create together..." required></textarea>
+        </div></div>
+        <div class="form-foot">
+          <button type="submit" class="sub-btn">Send Enquiry →</button>
+          <span class="form-note">We respond within 24 hours.</span>
+        </div>
+      </form>
+      <div class="form-ok" id="formOk">
+        <div class="form-ok-glyph">生</div>
+        <h3>Thank you.</h3>
+        <p>We've received your message and will be in touch within 24 hours.<br>Looking forward to building something meaningful together.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="ft-grid">
+    <div class="ft-brand">
+      <div class="ft-logo">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="98" fill="#1e1a16"/>
+          <g fill="white">
+            <ellipse cx="100" cy="72" rx="36" ry="13" transform="rotate(-15 100 72)" opacity=".88"/>
+            <path d="M60 68 Q74 50 93 63 Q79 56 60 68Z" opacity=".84"/>
+            <path d="M140 68 Q126 50 107 63 Q121 56 140 68Z" opacity=".84"/>
+            <ellipse cx="100" cy="128" rx="36" ry="13" transform="rotate(15 100 128)" opacity=".88"/>
+            <path d="M60 132 Q74 150 93 137 Q79 144 60 132Z" opacity=".84"/>
+            <path d="M140 132 Q126 150 107 137 Q121 144 140 132Z" opacity=".84"/>
+            <circle cx="100" cy="100" r="7" fill="#1e1a16"/>
+            <circle cx="100" cy="100" r="4" fill="white" opacity=".55"/>
+          </g>
+          <circle cx="100" cy="100" r="94" fill="none" stroke="white" stroke-width="1" stroke-dasharray="3 3" opacity=".25"/>
+        </svg>
+        <span class="ft-logo-name">IKIGAI STUDIO</span>
+      </div>
+      <div class="ft-sub">Purpose-Driven Creative & Digital Agency</div>
+      <p class="ft-desc">A strategic creative partner for hospitality and lifestyle brands. Where purpose meets precision and design meets measurable performance.</p>
+    </div>
+    <div class="ft-col">
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Brand Strategy</a></li>
+        <li><a href="#services">Visual Identity</a></li>
+        <li><a href="#services">Social Media</a></li>
+        <li><a href="#services">Performance Marketing</a></li>
+        <li><a href="#services">Hospitality Branding</a></li>
+        <li><a href="#services">Creative Direction</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>Work</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/governor.sahab/" target="_blank">Governor Sahab ↗</a></li>
+        <li><a href="https://www.instagram.com/radissonbluhotelspanashik/" target="_blank">Radisson Blu Nashik ↗</a></li>
+        <li><a href="https://www.instagram.com/jaurstudio/" target="_blank">Jaur Studio ↗</a></li>
+        <li><a href="https://www.instagram.com/jaipurrugs/" target="_blank">Jaipur Rugs ↗</a></li>
+        <li><a href="https://www.instagram.com/the.ikigaistudio/" target="_blank">Studio Instagram ↗</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <div class="ft-copy">© 2025 Ikigai Studio · Rutuja Pawar · All rights reserved.</div>
+    <div class="ft-soc">
+      <a href="https://www.instagram.com/the.ikigaistudio/" target="_blank">Instagram</a>
+      <a href="https://wa.me/919423260524" target="_blank">WhatsApp</a>
+      <a href="tel:+919423260524">+91 94232 60524</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ EXIT POPUP ═══ -->
+<div id="exit">
+  <div class="ex-bg" onclick="closeExit()"></div>
+  <div class="ex-box">
+    <button class="ex-x" onclick="closeExit()">✕</button>
+    <div class="ex-glyph">生</div>
+    <h2 class="ex-h">Before you go — let's build something meaningful together.</h2>
+    <p class="ex-p">Ikigai Studio works with a select number of brands each season. If your brand is ready to be felt, remembered, and scaled — we'd love to connect.</p>
+    <a href="#contact" class="ex-btn" onclick="closeExit()">Start a Conversation</a>
+    <span class="ex-skip" onclick="closeExit()">Maybe later</span>
+  </div>
+</div>
+
+<script>
+// ── Cursor ──
+const dot=document.getElementById('dot'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function tick(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+document.querySelectorAll('a,button,.svc,.card,.rev,.diff-li').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('grow'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('grow'));
+});
+
+// ── Nav scroll ──
+const nav=document.getElementById('nav');
+const scta=document.getElementById('scta');
+const wa=document.getElementById('wa');
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  nav.classList.toggle('s',y>50);
+  scta.classList.toggle('show',y>420);
+  wa.classList.toggle('show',y>220);
+});
+
+// ── Mobile menu ──
+function openMob(){ document.getElementById('mob').classList.add('open'); }
+function closeMob(){ document.getElementById('mob').classList.remove('open'); }
+document.getElementById('mob-x').addEventListener('click',closeMob);
+
+// ── Scroll reveal ──
+const rvEls=document.querySelectorAll('.rv');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
+},{threshold:.1});
+rvEls.forEach(r=>obs.observe(r));
+
+// ── Form ──
+document.getElementById('ts').value=new Date().toISOString();
+function handleSub(e){
+  e.preventDefault();
+  const fd=new FormData(e.target);
+  const payload=Object.fromEntries(fd.entries());
+  // 👇 Replace with your Zapier / Make / Google Apps Script webhook URL
+  const WEBHOOK='YOUR_WEBHOOK_URL_HERE';
+  fetch(WEBHOOK,{
+    method:'POST',mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  }).catch(()=>{});
+  document.getElementById('theForm').style.display='none';
+  document.getElementById('formOk').classList.add('show');
+}
+
+// ── Exit popup ──
+let shown=false;
+document.addEventListener('mouseleave',e=>{
+  if(e.clientY<0&&!shown){ shown=true; document.getElementById('exit').classList.add('on'); }
+});
+setTimeout(()=>{ if(!shown&&window.scrollY>600){ shown=true; document.getElementById('exit').classList.add('on'); } },55000);
+function closeExit(){ document.getElementById('exit').classList.remove('on'); }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeExit(); });
+
+// ── Smooth anchors ──
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+</script>
+</body>
+</html>
